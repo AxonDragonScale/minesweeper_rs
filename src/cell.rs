@@ -1,4 +1,3 @@
-
 #[derive(Debug, PartialEq, Eq, Hash)]
 pub struct Position {
     pub row: usize,
@@ -20,20 +19,19 @@ pub enum CellState {
 
 #[derive(Debug)]
 pub struct Cell {
-    position: Position,
-    cell_type: CellType,
-    cell_state: CellState,
+    pub position: Position,
+    pub cell_type: CellType,
+    pub cell_state: CellState,
 }
 
 impl Cell {
-    pub fn new(position: Position, is_mine: bool) -> Self {
+    pub fn new(position: Position, is_mine: bool, adjacent_mines: usize) -> Self {
         Cell {
             position,
             cell_type: if is_mine {
                 CellType::Mine
             } else {
-                // Initially set adjacent_mines to 0
-                CellType::Safe { adjacent_mines: 0 }
+                CellType::Safe { adjacent_mines }
             },
             cell_state: CellState::None,
         }
