@@ -1,4 +1,4 @@
-mod cell;
+pub mod cell;
 
 use std::{collections::HashSet, fmt::Display};
 
@@ -13,7 +13,11 @@ pub struct Board {
 impl Display for Board {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         for row in self.grid.iter() {
+            for _ in 0..(row.len()) { write!(f, "-----")?; }
+            write!(f, "-\n")?;
+
             for col in row {
+                write!(f, "| ")?;
                 match col.cell_state {
                     cell::CellState::None => write!(f, "🟦 ")?,
                     cell::CellState::Opened => {
@@ -25,8 +29,11 @@ impl Display for Board {
                     cell::CellState::Flagged => write!(f, "🚩 ")?,
                 }
             }
-            write!(f, "\n")?;
+            write!(f, "|\n")?;
+
         }
+        for _ in 0..(self.grid[0].len()) { write!(f, "-----")?; }
+        write!(f, "-\n")?;
 
         Ok(())
     }
@@ -112,6 +119,5 @@ mod tests {
         let mut board = Board::new(10, 10, 10);
         board.open_cell(&Position { row: 1, col: 1 });
         board.toggle_flag(&Position { row: 2, col: 2 });
-        println!("\n{board}");
     }
 }
